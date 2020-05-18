@@ -1,20 +1,22 @@
 class Flights:
 
-    def __init__(self, codi_vol: str = None, num_pasajeros: int = None, origen: str = None, destinacion: str = None):
-        self.id_vuelo = codi_vol
-        self.num_pasajeros = num_pasajeros
-        self.origen = origen
-        self.destinacion = destinacion
-        pass
+    def __init__(self, flight_id: str, passenger_num: int, origin: str, destination: str):
+        self.flight_id = flight_id
+        self.passenger_num = passenger_num
+        self.origin = origin
+        self.destination = destination
 
-    def get_num_pass(self):
-        return self.num_pasajeros
-        pass
+    def get_passenger_num(self):
+        return self.passenger_num
 
-    def get_codi_vol(self):
-        return self.id_vuelo
-        pass
+    def get_flight_id(self):
+        return self.flight_id
 
-    def get_destinacion(self):
-        return self.destinacion
-        pass
+    def get_destination(self):
+        return self.destination
+
+    def destination_is_empty(self) -> bool:
+        n = len(self.destination)
+        if n == 0:
+            return True
+        return False
