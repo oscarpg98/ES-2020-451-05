@@ -1,0 +1,5 @@
+- Dado un viaje con más de un viajero, el número de viajeros es el esperado
+
+- Dado un viaje sin destinos, la lista de destinos está vacía
+
+- Dado un viaje, cuando se añaden destinos, la lista de destinos es la esperada
