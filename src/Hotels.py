@@ -1,24 +1,23 @@
 class Hotels:
 
-    def __init__(self, codigo_hotel: str, nombre: str, n_huespedes: int, n_habitaciones: int, d_estancia: int):
-        self.codigo_hotel = codigo_hotel
-        self.nombre = nombre
-        self.n_huespedes = n_huespedes
-        self.n_habitaciones = n_habitaciones
-        self.d_estancia = d_estancia
-        pass
+    def __init__(self, hotel_id: str, name: str, hosts: int, rooms: int, days: int):
+        self.hotel_id = hotel_id
+        self.name = name
+        self.hosts = hosts
+        self.rooms = rooms
+        self.days = days
 
-    def get_codigo_hotel(self):
-        return self.codigo_hotel
+    def get_hotel_id(self):
+        return self.hotel_id
 
-    def get_nombre(self):
-        return self.nombre
+    def get_name(self):
+        return self.name
 
-    def get_n_huespedes(self):
-        return self.n_huespedes
+    def get_hosts(self):
+        return self.hosts
 
-    def get_n_habitaciones(self):
-        return self.n_habitaciones
+    def get_rooms(self):
+        return self.rooms
 
-    def get_d_estancia(self):
-        return self.d_estancia
+    def get_days(self):
+        return self.days
