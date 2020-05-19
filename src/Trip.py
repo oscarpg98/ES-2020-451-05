@@ -2,6 +2,7 @@ from src.Hotels import Hotels
 from src.Flights import Flights
 from src.User import User
 from src.Cars import Cars
+from src.Skyscanner import Skyscanner
 
 
 class Trip:
@@ -26,6 +27,9 @@ class Trip:
     def get_destinations(self):
         return self.destination_list
 
+    def get_id(self, flight: Flights):
+        return flight.get_flight_id()
+
     def add_flight(self, flight: Flights):
         self.flight_list.append(flight)
         self.destination_list.append(flight.get_destination())
@@ -33,17 +37,25 @@ class Trip:
 
     def add_hotel(self, hotel: Hotels):
         self.hotel_list.append(hotel)
-        self.total_price += hotel.get_price()
+        self.total_price += (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
 
     def add_car(self, car: Cars):
         self.car_list.append(car)
-        self.total_price += car.get_price()
+        self.total_price += (car.get_price()*float(car.get_duration()))
 
     def delete_flight(self, flight: Flights):
         self.total_price -= (flight.get_price()*float(flight.get_passenger_num()))
         dest = flight.get_destination()
         self.flight_list.remove(flight)
         self.destination_list.remove(dest)
+
+    def delete_car(self, car: Cars):
+        self.total_price -= (car.get_price() * float(car.get_duration()))
+        self.car_list.remove(car)
+
+    def delete_hotel(self, hotel: Hotels):
+        self.total_price -= (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
+        self.hotel_list.remove(hotel)
 
     def destination_is_empty(self) -> bool:
         n = len(self.destination_list)
@@ -57,4 +69,10 @@ class Trip:
             return True
         return False
 
+    def confirm_flight_reservation(self, user: User):
+        sky = Skyscanner()
+        confirmed = True
+        for flight in self.flight_list:
+            confirmed = confirmed and sky.confirm_reserve(user, flight)
+        return confirmed
 
