@@ -1,6 +1,10 @@
+from src.Bank import Bank
+from src.User import User
+
+
 class PaymentData:
 
-    def __init__(self, card_type: str, owner: str, card_number: str, cvv: int, price: float):
+    def __init__(self, card_type: str, owner: str, card_number: str, cvv: str, price: float):
         self.card_type = card_type
         self.owner = owner
         self.card_number = card_number
@@ -21,3 +25,10 @@ class PaymentData:
 
     def get_price(self):
         return self.price
+
+    def do_payment(self, user: User):
+        bank = Bank()
+        if bank.do_payment(user, self):
+            return True, 'Payment has been done successfully.'
+        return False, 'Payment has been denied.'
+
