@@ -6,7 +6,6 @@ class PaymentData:
         self.card_number = card_number
         self.cvv = cvv
         self.price = price
-        pass
 
     def get_card_type(self):
         return self.card_type
