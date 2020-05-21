@@ -1,27 +1,19 @@
+from src.Hotel import Hotel
+
+
 class Hotels:
 
-    def __init__(self, hotel_id: str, name: str, hosts: int, rooms: int, days: int, price: float):
-        self.hotel_id = hotel_id
-        self.name = name
-        self.hosts = hosts
-        self.rooms = rooms
-        self.days = days
-        self.price = price
+    def __init__(self):
+        self.hotel_list = []
+        self.hotels_price = 0.0
 
-    def get_hotel_id(self):
-        return self.hotel_id
+    def get_hotels_price(self):
+        return self.hotels_price
 
-    def get_name(self):
-        return self.name
+    def add_hotel(self, hotel: Hotel):
+        self.hotel_list.append(hotel)
+        self.hotels_price += (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
 
-    def get_hosts(self):
-        return self.hosts
-
-    def get_rooms(self):
-        return self.rooms
-
-    def get_days(self):
-        return self.days
-
-    def get_price(self):
-        return self.price
+    def delete_hotel(self, hotel: Hotel):
+        self.hotels_price -= (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
+        self.hotel_list.remove(hotel)
