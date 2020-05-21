@@ -1,21 +1,50 @@
+from src.Flight import Flight
+from src.Skyscanner import Skyscanner
+from src.User import User
+
+
 class Flights:
 
-    def __init__(self, flight_id: str, passenger_num: int, origin: str, destination: str, price: float):
-        self.flight_id = flight_id
-        self.passenger_num = passenger_num
-        self.origin = origin
-        self.destination = destination
-        self.price = price
+    def __init__(self):
+        self.flight_list = []
+        self.destination_list = []
+        self.flights_price = 0.0
 
-    def get_passenger_num(self):
-        return self.passenger_num
+    def get_destination_list(self):
+        return self.destination_list
 
-    def get_flight_id(self):
-        return self.flight_id
+    def get_flights_price(self):
+        return self.flights_price
 
-    def get_destination(self):
-        return self.destination
+    @staticmethod
+    def get_id(flight: Flight):
+        return flight.get_flight_id()
 
-    def get_price(self):
-        return self.price
+    def get_id_list(self):
+        ids = []
+        for i in self.flight_list:
+            ids.append(i.get_flight_id())
+        return ids
 
+    def add_flight(self, flight: Flight):
+        self.flight_list.append(flight)
+        self.destination_list.append(flight.get_destination())
+        self.flights_price += (flight.get_price()*float(flight.get_passenger_num()))
+
+    def delete_flight(self, flight: Flight):
+        self.flights_price -= (flight.get_price()*float(flight.get_passenger_num()))
+        dest = flight.get_destination()
+        self.flight_list.remove(flight)
+        self.destination_list.remove(dest)
+
+    def destination_is_empty(self) -> bool:
+        n = len(self.destination_list)
+        if n == 0:
+            return True
+        return False
+
+    def flight_list_is_empty(self) -> bool:
+        n = len(self.flight_list)
+        if n == 0:
+            return True
+        return False
