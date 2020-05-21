@@ -1,78 +1,96 @@
 from src.Hotels import Hotels
-from src.Flights import Flights
+from src.Hotel import Hotel
 from src.User import User
+from src.Flights import Flights
+from src.Flight import Flight
 from src.Cars import Cars
+from src.Car import Car
+from src.Bank import Bank
+from src.PaymentData import PaymentData
 from src.Skyscanner import Skyscanner
+from src.Rentalcars import Rentalcars
+from src.Booking import Booking
 
 
 class Trip:
 
     def __init__(self, user: User):
         self.user = user
-        self.hotel_list = []
-        self.flight_list = []
-        self.car_list = []
-        self.destination_list = []
+        self.flights = Flights()
+        self.hotels = Hotels()
+        self.cars = Cars()
         self.total_price = 0.0
 
-    def get_flights_len(self):
-        return len(self.flight_list)
+    def get_flight_ids(self):
+        return self.flights.get_id_list()
 
-    def get_destinations_len(self):
-        return len(self.destination_list)
+    def destination_is_empty(self):
+        return self.flights.destination_is_empty()
+
+    def flight_list_is_empty(self):
+        return self.flights.flight_list_is_empty()
 
     def get_total_price(self):
         return self.total_price
 
     def get_destinations(self):
-        return self.destination_list
+        return self.flights.get_destination_list()
 
-    def get_id(self, flight: Flights):
-        return flight.get_flight_id()
+    def add_flight(self, flight: Flight):
+        self.flights.add_flight(flight)
+        self.total_price = self.flights.get_flights_price()
 
-    def add_flight(self, flight: Flights):
-        self.flight_list.append(flight)
-        self.destination_list.append(flight.get_destination())
-        self.total_price += (flight.get_price()*float(flight.get_passenger_num()))
+    def delete_flight(self, flight: Flight):
+        self.flights.delete_flight(flight)
+        self.total_price = self.flights.get_flights_price()
 
-    def add_hotel(self, hotel: Hotels):
-        self.hotel_list.append(hotel)
-        self.total_price += (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
+    def add_hotel(self, hotel: Hotel):
+        self.hotels.add_hotel(hotel)
+        self.total_price = self.hotels.get_hotels_price()
 
-    def add_car(self, car: Cars):
-        self.car_list.append(car)
-        self.total_price += (car.get_price()*float(car.get_duration()))
+    def delete_hotel(self, hotel: Hotel):
+        self.hotels.delete_hotel(hotel)
+        self.total_price = self.hotels.get_hotels_price()
 
-    def delete_flight(self, flight: Flights):
-        self.total_price -= (flight.get_price()*float(flight.get_passenger_num()))
-        dest = flight.get_destination()
-        self.flight_list.remove(flight)
-        self.destination_list.remove(dest)
+    def add_car(self, car: Car):
+        self.cars.add_car(car)
+        self.total_price = self.cars.get_cars_price()
 
-    def delete_car(self, car: Cars):
-        self.total_price -= (car.get_price() * float(car.get_duration()))
-        self.car_list.remove(car)
-
-    def delete_hotel(self, hotel: Hotels):
-        self.total_price -= (hotel.get_price() * float(hotel.get_hosts() * hotel.get_days()))
-        self.hotel_list.remove(hotel)
-
-    def destination_is_empty(self) -> bool:
-        n = len(self.destination_list)
-        if n == 0:
-            return True
-        return False
-
-    def flight_list_is_empty(self) -> bool:
-        n = len(self.flight_list)
-        if n == 0:
-            return True
-        return False
+    def delete_car(self, car: Car):
+        self.cars.delete_car(car)
+        self.total_price = self.cars.get_cars_price()
 
     def confirm_flight_reservation(self, user: User):
         sky = Skyscanner()
-        confirmed = True
-        for flight in self.flight_list:
-            confirmed = confirmed and sky.confirm_reserve(user, flight)
-        return confirmed
+        if sky.confirm_reserve(user, self.flights):
+            return 'Your flights have been reserved successfully.'
+        return 'Your flight reservation has been denied.'
+
+    def confirm_car_reservation(self, user: User):
+        rent = Rentalcars()
+        if rent.confirm_reserve(user, self.cars):
+            return 'Your cars have been reserved successfully.'
+        return 'Your car reservation has been denied.'
+
+    def confirm_hotel_reservation(self, user: User):
+        book = Booking()
+        if book.confirm_reserve(user, self.hotels):
+            return 'Your hotels have been reserved successfully.'
+        return 'Your hotel reservation has been denied.'
+
+    @staticmethod
+    def do_payment(user: User, payment: PaymentData):
+        bank = Bank()
+        if bank.do_payment(user, payment):
+            return 'Payment has been done successfully.'
+        return 'Payment has been denied.'
+
+    def get_cars(self):
+        return self.cars
+
+    def get_flights(self):
+        return self.flights
+
+    def get_hotels(self):
+        return self.hotels
 
