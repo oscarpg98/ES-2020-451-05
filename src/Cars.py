@@ -1,23 +1,19 @@
+from src.Car import Car
+
+
 class Cars:
 
-    def __init__(self, car_id: str, brand: str, picking_place: str, duration: int, price: float):
-        self.car_id = car_id
-        self.brand = brand
-        self.picking_place = picking_place
-        self.duration = duration
-        self.price = price
+    def __init__(self):
+        self.car_list = []
+        self.cars_price = 0.0
 
-    def get_car_id(self):
-        return self.car_id
+    def get_cars_price(self):
+        return self.cars_price
 
-    def get_brand(self):
-        return self.brand
+    def add_car(self, car: Car):
+        self.car_list.append(car)
+        self.cars_price += (car.get_price()*float(car.get_duration()))
 
-    def get_picking_place(self):
-        return self.picking_place
-
-    def get_duration(self):
-        return self.duration
-
-    def get_price(self):
-        return self.price
+    def delete_car(self, car: Car):
+        self.cars_price -= (car.get_price() * float(car.get_duration()))
+        self.car_list.remove(car)
