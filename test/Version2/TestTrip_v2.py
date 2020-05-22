@@ -2,6 +2,7 @@ from src.Trip import Trip
 from src.Flight import Flight
 from src.User import User
 from src.PaymentData import PaymentData
+from src.Bank import Bank
 from unittest import mock
 from src.Skyscanner import Skyscanner
 import unittest
@@ -18,7 +19,8 @@ class TestTripV2(unittest.TestCase):
         trip.add_flight(flight2)
         total_price = trip.get_total_price()
         payment = PaymentData('Visa', 'Fariseo', '6456456454', '654', total_price)
-        trip.do_payment(user, payment)
+        bank = Bank()
+        trip.do_payment(user, payment, bank)
         self.assertEqual('Visa', payment.get_card_type())
 
     @mock.patch('src.Bank')
@@ -33,8 +35,9 @@ class TestTripV2(unittest.TestCase):
         trip.add_flight(flight3)
         total_price = trip.get_total_price()
         payment = PaymentData('Visa', 'Fariseo', '6456456454', '654', total_price)
-        res = mock_bank.return_value.do_payment(user, payment).return_value = False
-        self.assertEqual(False, res)
+        mock_bank.do_payment(user, payment).return_value = False
+        res = trip.do_payment(user, payment, mock_bank)
+        self.assertEqual('Payment has been denied.', res)
 
     @mock.patch('src.Skyscanner')
     def test_given_a_confirmation_error_when_reserving_flights_report_a_message_error(self, mock_sky):
