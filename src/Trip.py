@@ -5,11 +5,8 @@ from src.Flights import Flights
 from src.Flight import Flight
 from src.Cars import Cars
 from src.Car import Car
-from src.Bank import Bank
-from src.PaymentData import PaymentData
-from src.Skyscanner import Skyscanner
-from src.Rentalcars import Rentalcars
-from src.Booking import Booking
+
+IVA = 0.21
 
 
 class Trip:
@@ -21,6 +18,18 @@ class Trip:
         self.cars = Cars()
         self.total_price = 0.0
 
+    def get_price_without_iva(self):
+        return self.total_price * (1-IVA)
+
+    def get_iva_price(self):
+        return self.total_price * IVA
+
+    def get_iva_percentage(self):
+        return IVA * 100
+
+    def get_total_price_with_iva(self):
+        return self.total_price
+
     def get_flight_ids(self):
         return self.flights.get_id_list()
 
@@ -29,9 +38,6 @@ class Trip:
 
     def flight_list_is_empty(self):
         return self.flights.flight_list_is_empty()
-
-    def get_total_price(self):
-        return self.total_price
 
     def get_destinations(self):
         return self.flights.get_destination_list()
@@ -60,26 +66,23 @@ class Trip:
         self.cars.delete_car(car)
         self.total_price = self.cars.get_cars_price()
 
-    def confirm_flight_reservation(self, user: User):
-        sky = Skyscanner()
-        if sky.confirm_reserve(user, self.flights):
+    def confirm_flight_reservation(self, confirmed: bool):
+        if confirmed:
             return 'Your flights have been reserved successfully.'
         return 'Your flight reservation has been denied.'
 
-    def confirm_car_reservation(self, user: User):
-        rent = Rentalcars()
-        if rent.confirm_reserve(user, self.cars):
+    def confirm_car_reservation(self, confirmed: bool):
+        if confirmed:
             return 'Your cars have been reserved successfully.'
         return 'Your car reservation has been denied.'
 
-    def confirm_hotel_reservation(self, user: User):
-        book = Booking()
-        if book.confirm_reserve(user, self.hotels):
+    def confirm_hotel_reservation(self, confirmed: bool):
+        if confirmed:
             return 'Your hotels have been reserved successfully.'
         return 'Your hotel reservation has been denied.'
 
-    def do_payment(self, user: User, payment: PaymentData, bank: Bank):
-        if bank.do_payment(user, payment):
+    def confirm_payment(self, confirmed: bool):
+        if confirmed:
             return 'Payment has been done successfully.'
         return 'Payment has been denied.'
 
