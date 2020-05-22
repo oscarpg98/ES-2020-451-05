@@ -1,6 +1,4 @@
 from src.Flight import Flight
-from src.Skyscanner import Skyscanner
-from src.User import User
 
 
 class Flights:
