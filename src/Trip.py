@@ -78,9 +78,7 @@ class Trip:
             return 'Your hotels have been reserved successfully.'
         return 'Your hotel reservation has been denied.'
 
-    @staticmethod
-    def do_payment(user: User, payment: PaymentData):
-        bank = Bank()
+    def do_payment(self, user: User, payment: PaymentData, bank: Bank):
         if bank.do_payment(user, payment):
             return 'Payment has been done successfully.'
         return 'Payment has been denied.'
@@ -93,4 +91,3 @@ class Trip:
 
     def get_hotels(self):
         return self.hotels
-
