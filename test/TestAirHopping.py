@@ -11,44 +11,6 @@ from src.Rentalcars import Rentalcars
 from unittest import mock
 import unittest
 
-'''
-@pytest.fixture()
-def user(self):
-    user = User('Fariseo', '1234567', 'Serranos', '65612648', 'hola@adios.com')
-    return user
-
-
-@pytest.fixture()
-def flight1(self):
-    flight = Flight('abc', 4, 'Paris', 'Barcelona', 99.99)
-    return flight
-
-
-@pytest.fixture()
-def flight2(self):
-    flight = Flight('def', 4, 'Barcelona', 'New York', 399.99)
-    return flight
-
-
-@pytest.fixture()
-def flight3(self):
-    flight = Flight('ghi', 4, 'New York', 'Paris', 299.99)
-    return flight
-
-
-@pytest.fixture()
-def trip1(self):
-    user = User('Fariseo', '1234567', 'Serranos', '65612648', 'hola@adios.com')
-    flight1 = Flight('abc', 4, 'Paris', 'Barcelona', 99.99)
-    flight2 = Flight('def', 4, 'Barcelona', 'New York', 399.99)
-    flight3 = Flight('ghi', 4, 'New York', 'Paris', 299.99)
-    trip = Trip(user)
-    trip.add_flight(flight1)
-    trip.add_flight(flight2)
-    trip.add_flight(flight3)
-    return trip
-'''
-
 
 class TestAirHopping(unittest.TestCase):
 
